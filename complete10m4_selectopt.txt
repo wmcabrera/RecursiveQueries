@@ -1,0 +1,10 @@
+CREATE RECURSIVE VIEW  
+REQA(d,i,j,p,v) AS ( 
+SELECT 1,i,j,1,v FROM complete10m 
+UNION ALL 
+SELECT d + 1, REQA.i, complete10m.j, REQA.p * complete10m.p, REQA.v + complete10m.v 
+FROM REQA JOIN complete10m ON REQA.j = complete10m.i 
+WHERE d < 4 );
+
+SELECT * into def FROM REQA where i=1;
+

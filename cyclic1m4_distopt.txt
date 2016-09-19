@@ -1,0 +1,10 @@
+CREATE RECURSIVE VIEW  
+REQU(d,i,j,p,v) AS ( 
+SELECT 1,i,j,1,v FROM cyclic1m 
+UNION ALL 
+SELECT d + 1, REQU.i, cyclic1m.j, REQU.p * cyclic1m.p, REQU.v + cyclic1m.v 
+FROM REQU JOIN cyclic1m ON REQU.j = cyclic1m.i 
+WHERE d < 4 );
+
+SELECT distinct * into def FROM REQU;
+

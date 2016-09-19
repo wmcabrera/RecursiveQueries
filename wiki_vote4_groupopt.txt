@@ -1,0 +1,10 @@
+CREATE RECURSIVE VIEW  
+REQA(d,i,j,p,v) AS ( 
+SELECT 1,i,j,1,v FROM wiki_vote 
+UNION ALL 
+SELECT d + 1, REQA.i, wiki_vote.j, REQA.p * wiki_vote.p, REQA.v + wiki_vote.v 
+FROM REQA JOIN wiki_vote ON REQA.j = wiki_vote.i 
+WHERE d < 4 );
+
+SELECT d,i,j,sum(p) as p,max(v) as v into def FROM REQA GROUP BY d,i,j;
+

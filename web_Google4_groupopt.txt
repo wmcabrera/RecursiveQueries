@@ -1,0 +1,10 @@
+CREATE RECURSIVE VIEW  
+REQA(d,i,j,p,v) AS ( 
+SELECT 1,i,j,1,v FROM web_Google 
+UNION ALL 
+SELECT d + 1, REQA.i, web_Google.j, REQA.p * web_Google.p, REQA.v + web_Google.v 
+FROM REQA JOIN web_Google ON REQA.j = web_Google.i 
+WHERE d < 4 );
+
+SELECT d,i,j,sum(p) as p,max(v) as v into def FROM REQA GROUP BY d,i,j;
+

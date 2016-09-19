@@ -1,0 +1,9 @@
+CREATE RECURSIVE VIEW  
+REQU(d,i,j,p,v) AS ( 
+SELECT 1,i,j,1,v FROM tree10m 
+UNION ALL 
+SELECT d + 1, REQU.i, tree10m.j, REQU.p * tree10m.p, REQU.v + tree10m.v 
+FROM REQU JOIN tree10m ON REQU.j = tree10m.i 
+WHERE d < 4);
+
+SELECT distinct * into def FROM REQU;
